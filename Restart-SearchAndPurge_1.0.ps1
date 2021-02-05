@@ -204,19 +204,24 @@ Write-Host "Running Compliance Purge $Counter0 times" -ForeGroundColor Red
 
 do { #Do until all iterations of set in $counter0 have completed
 
+	Write-log ("if (!(!(Get-ComplianceSearchAction $PurgeName -erroraction 0))) { #Need to check if a purge action exists for the search name then remove it")
     Test-IPPSSession
     if (!(!(Get-ComplianceSearchAction $PurgeName -erroraction 0))) { #Need to check if a purge action exists for the search name then remove it
     
         #Remove Current Search Action before continuing
         "Found Current Search Action - Removing before Proceeding"
-        Remove-ComplianceSearchAction $PurgeName -Confirm:$false
+        Write-log ("Remove-ComplianceSearchAction $PurgeName -Confirm:$false")
+		Remove-ComplianceSearchAction $PurgeName -Confirm:$false
     }
     
     "Running Purge"
-    Test-IPPSSession
+    Write-log ("New-ComplianceSearchAction -Purge -PurgeType $PurgeSetting -SearchName $SearchName -Confirm:$false -Force #Perform Purge")
+	Test-IPPSSession
     New-ComplianceSearchAction -Purge -PurgeType $PurgeSetting -SearchName $SearchName -Confirm:$false -Force #Perform Purge
     
     Start-Sleep -Seconds 5
+
+	Write-log ("$CompletionStatus = (Get-ComplianceSearchAction).Status")
 
     Test-IPPSSession
     $CompletionStatus = (Get-ComplianceSearchAction).Status #Pull initial status to feed while loop / short circuit if it is completed before loop
