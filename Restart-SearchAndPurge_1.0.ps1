@@ -100,7 +100,7 @@ Function New-CleanIPPSSession {
 	   $ErrorCount = 0
    }
    # Import the PS session/connect to EXO
-	$null = Connect-IPPSSession -UserPrincipalName $LogonUPN -DelegatedOrganization $Tenant
+	$null = Connect-IPPSSession -UserPrincipalName $LogonUPN 
    # Set the Start time for the current session
 	Set-Variable -Scope script -Name SessionStartTime -Value (Get-Date)
 }
@@ -161,7 +161,7 @@ Function Test-IPPSSession {
 ##Start Script##
 
 #Set Variables
-#$logfilename = '\Restart-SearchAndPurge'
+$logfilename = '\Restart-SearchAndPurge'
 #$outputfilename = '\Restart-SearchAndPurge_Output_'
 $execpol = get-executionpolicy
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force  #this is just for the session running this script
@@ -169,9 +169,9 @@ Write-Host;$LogonUPN=Read-host "Type in UPN for account that will execute this s
 $Tenant=Read-host "Type in your tenant domain name (eg <domain>.onmicrosoft.com)";write-host "...pleasewait...connecting to EXO..."
 # Set $OutputFolder to Current PowerShell Directory
 [IO.Directory]::SetCurrentDirectory((Convert-Path (Get-Location -PSProvider FileSystem)))
-#$outputFolder = [IO.Directory]::GetCurrentDirectory()
-#$DateTicks = (Get-Date).Ticks
-#$logFile = $outputFolder + $logfilename + $DateTicks + ".txt"
+$outputFolder = [IO.Directory]::GetCurrentDirectory()
+$DateTicks = (Get-Date).Ticks
+$logFile = $outputFolder + $logfilename + $DateTicks + ".txt"
 #$OutputFile= $outputfolder + $outputfilename + $DateTicks + ".csv"
 [int]$ManualThrottle=0
 [double]$ActiveThrottle=.25
