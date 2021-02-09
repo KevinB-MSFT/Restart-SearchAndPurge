@@ -160,7 +160,6 @@ Function Test-IPPSSession {
 }
 
 ##Start Script##
-
 #Set Variables
 $logfilename = '\Restart-SearchAndPurge'
 #$outputfilename = '\Restart-SearchAndPurge_Output_'
